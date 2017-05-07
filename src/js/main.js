@@ -148,6 +148,8 @@ var ViewModel = function() {
                 self.currentInfoWindow.setMarker = null;
             });
         }
+
+        marker.setAnimation(google.maps.Animation.DROP);
     }
 }
 
