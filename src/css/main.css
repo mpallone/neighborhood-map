@@ -47,14 +47,14 @@ html, body {
     background-color: #37474F;
 }
 
-#pac-input {
+#filter-input-box {
     width: 100%;
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 5px;
     color: black;
 }
-#pac-input:focus {
+#filter-input-box:focus {
     /* Stolen from https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete */
     border-color: #4d90fe;
 }

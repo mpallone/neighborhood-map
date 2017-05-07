@@ -13,10 +13,10 @@
     <body>
         <div class="row">
             <div class="col-md-4" id="menu">
-                <input id="pac-input" class="controls" type="text" placeholder="Search here for DC restaurants! Coffee, anyone?">
+                <input id="filter-input-box" type="text" placeholder="Filter coffee locations">
                 <ul id="places-list" data-bind="foreach: listItems">
                     <li>
-                        <p class="place-entry" data-bind="text: name"></p>
+                        <p class="place-entry" data-bind="text: name, click: $root.handleListElementOrMarkerClick"></p>
                     </li>
                 </ul>
             </div>
