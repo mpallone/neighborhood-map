@@ -6,8 +6,6 @@ var sideMenuIsHidden = false;
 
 function initMap() {
 
-    console.log("initMap was called");
-
     map = new google.maps.Map(document.getElementById('map'), {
         center: washingtonDcLatLng,
         zoom: 14
@@ -35,35 +33,8 @@ function initMap() {
 
 }
 
-
-
-// function toggleSideMenu()
-// {
-//     // todo - should I be using Knockout for this?
-
-//     console.log("-----------------------");
-
-//     if (! sideMenuIsHidden)
-//     {
-
-//     }
-//     else
-//     {
-
-//     }
-
-//     sideMenuIsHidden = !sideMenuIsHidden;
-
-//     if (sideMenuIsHidden) {
-//         console.log("Side menu should now be hidden");
-//     } else {
-//         console.log("Side menu should now be visible");
-//     }
-
-
-// }
-
-// // todo - should I be using knockout for this?
-// $('#hamburger').click(toggleSideMenu);
-
+// todo remove
+for (var i = 0; i < 200; ++i) {
+    $('#test-list').append('<li>Element ' + i + '</li>')
+}
 
