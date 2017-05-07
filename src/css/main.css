@@ -48,3 +48,10 @@ html, body {
     /* Stolen from https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete */
     border-color: #4d90fe;
 }
+
+.place-entry:hover {
+    color: #CFD8DC;
+}
+.place-entry:focus {
+    color: #90A4AE;
+}

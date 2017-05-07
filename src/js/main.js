@@ -1,5 +1,7 @@
 var map;
-
+var placesService;
+var searchBox;
+var inputBox = document.getElementById('pac-input');
 var washingtonDcLatLng = {lat: 38.8976755, lng: -77.0451128};
 
 function initMap() {
@@ -12,8 +14,7 @@ function initMap() {
      * Code taken from https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
      */
 
-    var input = document.getElementById('pac-input')
-    var searchBox = new google.maps.places.SearchBox(input);
+    searchBox = new google.maps.places.SearchBox(inputBox);
     // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // too hard to see
 
     // Bias the SearchBox results towards current map's viewport.
@@ -25,6 +26,9 @@ function initMap() {
         var places = searchBox.getPlaces();
         viewModel.setListItems(places);
     });
+
+    placesService = new google.maps.places.PlacesService(map);
+    viewModel.initializeListItems();
 }
 
 var ViewModel = function() {
@@ -38,6 +42,18 @@ var ViewModel = function() {
             // todo - restrict this to just restaurants
             self.listItems.push(newListItems[i]);
         }
+    }
+
+    self.initializeListItems = function () {
+        // Set the first list that the user sees to my favorite locations
+        // cookbooked off of http://stackoverflow.com/a/36191621/5373846
+        var request = {
+            query: inputBox.placeholder,
+            bounds: searchBox.getBounds()
+        };
+        placesService.textSearch(request, function(places) {
+            searchBox.set('places', places || [])
+        });
     }
 }
 
