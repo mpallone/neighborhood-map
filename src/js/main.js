@@ -19,6 +19,7 @@ var ViewModel = function() {
     self.listItems = ko.observableArray([]);
     self.markers = [];
     self.unfilteredPlaceList = [];
+    self.currentInfoWindow = null;
 
     self.setListItems = function(newListItems) { // todo - should this be ko.computed()?
         // todo - handle the case where newListItems is empty
@@ -43,12 +44,22 @@ var ViewModel = function() {
 
             self.listItems.push(newListItems[i]);
 
+            // todo remove
+            if (i == 0) {
+                console.log(newListItems[i]);
+            }
+
             var marker = new google.maps.Marker({
                 position: newListItems[i].geometry.location,
                 map: map,
                 title: newListItems[i].geometry.name,
+                animation: google.maps.Animation.DROP,
+                placeData: newListItems[i],
+                iAmAMarker: true
             });
-            marker.addListener('click', self.handleListElementOrMarkerClick)
+            marker.addListener('click', function() {
+                self.handleListElementOrMarkerClick(this);
+            });
             self.markers.push(marker);
         }
     }
@@ -67,7 +78,43 @@ var ViewModel = function() {
     }
 
     self.handleListElementOrMarkerClick = function(data) {
-        console.log("A list element or marker was clicked! data: ", data);
+        var placeData;
+        var marker;
+        if (data.iAmAMarker) {
+            console.log("user clicked on marker");
+            placeData = data.placeData;
+            marker = data;
+        } else {
+            console.log("user clicked on list");
+            placeData = data;
+            // find the corresponding marker
+            for (var i = 0; i < self.markers.length; ++i) {
+                if (placeData.id == self.markers[i].placeData.id) {
+                    marker = self.markers[i];
+                    break;
+                }
+            }
+        }
+
+        if (self.currentInfoWindow == null) {
+            self.currentInfoWindow = new google.maps.InfoWindow();
+        }
+
+        // create InfoWindow and add it to marker
+        if (self.currentInfoWindow == null || self.currentInfoWindow.marker != marker) {
+            if (self.currentInfoWindow != null) {
+                self.currentInfoWindow.setMarker = null;
+            }
+            self.currentInfoWindow.marker = marker;
+            self.currentInfoWindow.setContent(
+                '<div>' + placeData.name + '</div>' +
+                '<p>'   + placeData.formatted_address  + '</p>'
+                );
+            self.currentInfoWindow.open(map, marker);
+            self.currentInfoWindow.addListener('closeclick', function() {
+                self.currentInfoWindow.setMarker = null;
+            });
+        }
     }
 }
 
