@@ -66,15 +66,4 @@ function initMap() {
 // // todo - should I be using knockout for this?
 // $('#hamburger').click(toggleSideMenu);
 
-var slideout = new Slideout({
-  'panel': document.getElementById('map-container'),
-  'menu': document.getElementById('menu'),
-  'padding': 256,
-  'tolerance': 70
-});
-
-// Toggle button
-document.querySelector('.toggle-button').addEventListener('click', function() {
-  slideout.toggle();
-});
 

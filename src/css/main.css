@@ -5,28 +5,16 @@ html, body {
     background-color: #37474F;
 }
 
-#map-container {
-    background-color: #37474F;
-}
-
-.toggle-button {
-    border: none;
-    color: #CFD8DC;
-    background-color: #37474F;
-    padding: 5px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1.5em;
-}
-.toggle-button:hover {
-    color: #E65100;
-}
-
 #map {
     min-height: 100vh;
 }
 
 #menu {
+    background-color: #37474F;
     color: white;
+}
+/*todo - limit max height on mobile, make the element scrollable*/
+
+.row {
+    background-color: #37474F;
 }
