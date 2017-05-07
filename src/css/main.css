@@ -37,3 +37,14 @@ html, body {
 .row {
     background-color: #37474F;
 }
+
+#pac-input {
+    width: 60%;
+    /*margin: 5px;*/
+    /*padding: 5px;*/
+    color: black;
+}
+#pac-input:focus {
+    /* Stolen from https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete */
+    border-color: #4d90fe;
+}
