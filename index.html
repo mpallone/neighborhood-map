@@ -13,6 +13,7 @@
     <body>
         <div class="row">
             <div class="col-md-4" id="menu">
+                <input id="pac-input" class="controls" type="text" placeholder="Search DC restaurants">
                 <ul id="places-list" data-bind="foreach: listItems">
                     <li>
                         <p data-bind="text: name"></p>
@@ -20,7 +21,6 @@
                 </ul>
             </div>
             <div class="col-md-8" id="map">map</div>
-            <input id="pac-input" class="controls" type="text" placeholder="Search DC restaurants">
         </div>
     </body>
 
