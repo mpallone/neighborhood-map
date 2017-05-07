@@ -45,7 +45,16 @@ var ViewModel = function() {
         }
         self.markers = [];
         for (var i = 0; i < newListItems.length; ++i) {
-            // todo - restrict this to just restaurants
+            // verify that we're dealing with food/drink establishments
+            if ($.inArray('restaurant', newListItems[i].types) == -1 &&
+                $.inArray('cafe', newListItems[i].types) == -1       &&
+                $.inArray('bar', newListItems[i].types) == -1        &&
+                $.inArray('bakery', newListItems[i].types) == -1)
+            {
+                continue;
+            }
+
+
             self.listItems.push(newListItems[i]);
             self.markers.push(new google.maps.Marker({
                 position: newListItems[i].geometry.location,
@@ -59,7 +68,7 @@ var ViewModel = function() {
         // Set the first list that the user sees to my favorite locations
         // cookbooked off of http://stackoverflow.com/a/36191621/5373846
         var request = {
-            query: inputBox.placeholder,
+            query: 'coffee in DC',
             bounds: searchBox.getBounds()
         };
         placesService.textSearch(request, function(places) {
