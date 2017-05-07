@@ -21,6 +21,16 @@ var ViewModel = function() {
     self.unfilteredPlaceList = [];
     self.currentInfoWindow = null;
 
+    self.currentFilterText = ko.observable("");
+    self.currentFilterText.subscribe(function(newText) {
+        if (newText.trim() == "") {
+            self.setListItems(self.unfilteredPlaceList);
+        } else {
+            var filteredItems = self.filterList(newText);
+            self.setListItems(filteredItems);
+        }
+    });
+
     self.setListItems = function(newListItems) { // todo - should this be ko.computed()?
         // todo - handle the case where newListItems is empty
         self.listItems.removeAll();
@@ -44,16 +54,16 @@ var ViewModel = function() {
 
             self.listItems.push(newListItems[i]);
 
-            // todo remove
-            if (i == 0) {
-                console.log(newListItems[i]);
-            }
+            // // todo remove
+            // if (i == 0) {
+            //     console.log(newListItems[i]);
+            // }
 
             var marker = new google.maps.Marker({
                 position: newListItems[i].geometry.location,
                 map: map,
                 title: newListItems[i].geometry.name,
-                animation: google.maps.Animation.DROP,
+                // animation: google.maps.Animation.DROP, // obnoxious
                 placeData: newListItems[i],
                 iAmAMarker: true
             });
@@ -62,6 +72,29 @@ var ViewModel = function() {
             });
             self.markers.push(marker);
         }
+    }
+
+    self.filterList = function(filterText) {
+        // returns a new list, with elements filtered based on the text
+        var lowercaseFilterText = filterText.toLowerCase();
+        var placesToKeep = [];
+
+        // split the filterText, and if any token matches, include it
+        var splitStringArray = lowercaseFilterText.split(" ");
+
+        for (var i = 0; i < self.unfilteredPlaceList.length; ++i) {
+            var currPlace = self.unfilteredPlaceList[i];
+            var lowercaseName = currPlace.name.toLowerCase();
+
+            for (var j = 0; j < splitStringArray.length; ++j) {
+                var currToken = splitStringArray[j];
+                if (lowercaseName.indexOf(currToken) != -1) {
+                    placesToKeep.push(currPlace);
+                    break;
+                }
+            }
+        }
+        return placesToKeep;
     }
 
     self.initializeListItems = function () {
