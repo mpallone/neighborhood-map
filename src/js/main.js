@@ -10,7 +10,7 @@ function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: washingtonDcLatLng,
-        zoom: 13
+        zoom: 14
     });
 
     /*
@@ -72,7 +72,6 @@ var slideout = new Slideout({
   'padding': 256,
   'tolerance': 70
 });
-slideout.toggle(); // start visible
 
 // Toggle button
 document.querySelector('.toggle-button').addEventListener('click', function() {
