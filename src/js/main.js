@@ -34,13 +34,24 @@ function initMap() {
 var ViewModel = function() {
     var self = this;
     self.listItems = ko.observableArray([]);
+    self.markers = [];
 
     self.setListItems = function(newListItems) { // todo - should this be ko.computed()?
         // todo - handle the case where newListItems is empty
         self.listItems.removeAll();
+        // delete old markers
+        for (var i = 0; i < self.markers.length; ++i) {
+            self.markers[i].setMap(null);
+        }
+        self.markers = [];
         for (var i = 0; i < newListItems.length; ++i) {
             // todo - restrict this to just restaurants
             self.listItems.push(newListItems[i]);
+            self.markers.push(new google.maps.Marker({
+                position: newListItems[i].geometry.location,
+                map: map,
+                title: newListItems[i].geometry.name
+            }));
         }
     }
 
@@ -59,3 +70,4 @@ var ViewModel = function() {
 
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
+
