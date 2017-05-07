@@ -5,18 +5,30 @@
         <meta http-equiv="X-UA-Compatible" content="ID=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Washington D.C. Restaurants</title>
+        <link href="src/css/slideout.css" rel="stylesheet">
         <link href="src/css/main.css" rel="stylesheet">
+        <!-- todo -- remove this bootstrap stuff if I don't wind up using it -->
+        <!-- <link href="src/css/bootstrap-theme.css" rel="stylesheet"> -->
+        <!-- <link href="src/css/bootstrap.css" rel="stylesheet">                 -->
     </head>
+
     <body>
-        
-        <div id="map"></div>
+        <nav id="menu"></nav>
 
-    </body> 
+        <main id="map-container">
+            <header>
+                <button class="toggle-button">☰</button>
+            </header>
+            <div id="map"></div>
+        </main>
+    </body>
 
+    <script type="text/javascript" src="src/js/knockout-3.2.0.js"></script>
+    <script type="text/javascript" src="src/js/jQuery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
     <script type="text/javascript" src="src/js/main.js"></script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBV0m2ZK1eFXyo1WRH_0oWlRineKKENecg&v=3&callback=initMap">
-        
-    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBV0m2ZK1eFXyo1WRH_0oWlRineKKENecg&v=3&callback=initMap"></script>
+
+
 
 </html>
