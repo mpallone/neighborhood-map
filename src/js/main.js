@@ -23,8 +23,6 @@ function initMap() {
 
     searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
-        // for (var i = 0; i < places.length; ++i)
-        //     console.log(i, places[i]);
         viewModel.setListItems(places);
     });
 }
@@ -34,10 +32,10 @@ var ViewModel = function() {
     self.listItems = ko.observableArray([]);
 
     self.setListItems = function(newListItems) { // todo - should this be ko.computed()?
-        console.log("setListItems() was called with ", newListItems.length, "elements.")
         // todo - handle the case where newListItems is empty
         self.listItems.removeAll();
         for (var i = 0; i < newListItems.length; ++i) {
+            // todo - restrict this to just restaurants
             self.listItems.push(newListItems[i]);
         }
     }
@@ -45,4 +43,3 @@ var ViewModel = function() {
 
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
-
