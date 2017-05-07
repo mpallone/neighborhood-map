@@ -13,7 +13,12 @@ html, body {
     background-color: #37474F;
     color: white;
 }
-/*todo - limit max height on mobile, make the element scrollable*/
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    #menu {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+}
 
 .row {
     background-color: #37474F;
