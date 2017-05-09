@@ -114,13 +114,12 @@ var ViewModel = function() {
         var placeData;
         var marker;
         if (data.iAmAMarker) {
-            console.log("user clicked on marker");
+            // user clicked on a marker
             placeData = data.placeData;
             marker = data;
         } else {
-            console.log("user clicked on list");
             placeData = data;
-            // find the corresponding marker
+            // User clicked on the list. Find the corresponding marker.
             for (var i = 0; i < self.markers.length; ++i) {
                 if (placeData.id == self.markers[i].placeData.id) {
                     marker = self.markers[i];
@@ -146,6 +145,35 @@ var ViewModel = function() {
             self.currentInfoWindow.open(map, marker);
             self.currentInfoWindow.addListener('closeclick', function() {
                 self.currentInfoWindow.setMarker = null;
+            });
+
+            // Add any NYT articles about the coffee shop/chain (Built by LucyBot. www.lucybot.com)
+            var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+            url += '?' + $.param({
+              'api-key': "7112833395c14519bee52c0a452a553d",
+              'q': placeData.name
+            });
+            $.ajax({
+                url: url,
+                method: 'GET',
+            }).done(function(result)
+            {
+                docs = result.response.docs;
+                var headerHtml = '<h5>New York Times Related Article</h5>'
+                if (docs.length > 0) {
+                    if (docs[0].snippet != null && docs[0].web_url != null) {
+                        var htmlArticleString = headerHtml;
+                        htmlArticleString += '<a href="' + docs[0].web_url + '">' + docs[0].headline.main + '</a>';
+                        htmlArticleString += '<p>' + docs[0].snippet + '</p>';
+                        self.currentInfoWindow.setContent(self.currentInfoWindow.content + htmlArticleString);
+                    }
+                } else {
+                    self.currentInfoWindow.setContent(self.currentInfoWindow.content + headerHtml
+                        + '<p>No NYTimes articles found.</p>');
+                }
+            }).fail(function(err) {
+                self.currentInfoWindow.setContent(self.currentInfoWindow.content + headerHtml
+                    + '<p>Could not reach NYTimes server.</p>');
             });
         }
 
