@@ -2,11 +2,11 @@ var map;
 var placesService;
 var searchBox;
 var inputBox = document.getElementById('pac-input');
-var washingtonDcLatLng = {lat: 38.8976755, lng: -77.0451128};
+var nycLatLng = {lat: 40.7800075, lng:-73.9677447};
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: washingtonDcLatLng,
+        center: nycLatLng,
         zoom: 14
     });
 
@@ -101,7 +101,7 @@ var ViewModel = function() {
         // Set the first list that the user sees to my favorite locations
         // cookbooked off of http://stackoverflow.com/a/36191621/5373846
         var request = {
-            query: 'coffee in DC',
+            query: 'coffee in Manhatten, NYC',
             bounds: map.getBounds()
         };
         placesService.textSearch(request, function(places) {
