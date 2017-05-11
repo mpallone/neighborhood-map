@@ -36,7 +36,7 @@ html, body {
         overflow-y: scroll;
     }
 }
-@media only screen and (min-width : 481px) and (max-width : 991px) and (orientation:landscape) {
+@media only screen and (min-width : 300px) and (max-width : 700px) and (orientation:landscape) {
     #menu {
         height: 140px;
         overflow-y: scroll;
