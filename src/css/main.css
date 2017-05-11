@@ -61,7 +61,7 @@ html, body {
 
 /*todo - rename place-entry to place-list-item, or something, 'place-entry' sounds too much like the search box*/
 .place-entry {
-
+    cursor: default;
 }
 .place-entry:hover {
     color: #CFD8DC;
