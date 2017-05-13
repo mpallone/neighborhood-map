@@ -2,12 +2,13 @@ var map;
 var placesService;
 var searchBox;
 var inputBox = document.getElementById('pac-input');
-var nycLatLng = {lat: 40.7800075, lng:-73.9677447};
+var nycLatLng = {lat:40.7481831 , lng:-74.0070031};
+
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: nycLatLng,
-        zoom: 14
+        zoom: 13
     });
 
     placesService = new google.maps.places.PlacesService(map);
