@@ -2,7 +2,7 @@ var map;
 var placesService;
 var searchBox;
 var inputBox = document.getElementById('pac-input');
-var nycLatLng = { lat:40.7481831 , lng:-74.0070031 };
+var nycLatLng = { lat: 40.7481831, lng: -74.0070031 };
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
