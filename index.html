@@ -11,16 +11,18 @@
     </head>
 
     <body>
-        <div class="row">
-            <div class="col-md-4" id="menu">
-                <input id="filter-input-box" data-bind="textInput: currentFilterText" type="text" placeholder="Filter coffee locations">
-                <ul id="places-list" data-bind="foreach: listItems">
-                    <li>
-                        <p class="place-entry" data-bind="text: name, click: $root.handleListElementOrMarkerClick"></p>
-                    </li>
-                </ul>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4" id="menu">
+                    <input id="filter-input-box" data-bind="textInput: currentFilterText" type="text" placeholder="Filter coffee locations">
+                    <ul id="places-list" data-bind="foreach: listItems">
+                        <li>
+                            <p class="place-entry" data-bind="text: name, click: $root.handleListElementOrMarkerClick"></p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-8" id="map">map</div>
             </div>
-            <div class="col-md-8" id="map">map</div>
         </div>
     </body>
 

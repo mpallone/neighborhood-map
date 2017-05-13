@@ -156,8 +156,7 @@ var ViewModel = function() {
             $.ajax({
                 url: url,
                 method: 'GET',
-            }).done(function(result)
-            {
+            }).done(function(result) {
                 docs = result.response.docs;
                 var headerHtml = '<h5>New York Times Related Article</h5>'
                 if (docs.length > 0) {
