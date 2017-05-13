@@ -2,7 +2,7 @@
 A map of NYC coffee shops. Coffee shops are filterable based on a forgiving, case-insensitive, keyword search. If any word in the search matches the coffee shop, then that coffee shop will be included.
 
 ### Running the App
-Either point your browser to `https://mpallone.github.io/neighborhood-map/`, or drag index.html into a new browser tab.
+Either point your browser to https://mpallone.github.io/neighborhood-map/, or drag index.html into a new browser tab.
 
 ### "Compiling" the App
 This app uses Gulp to create distribution files.
