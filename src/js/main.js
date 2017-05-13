@@ -2,7 +2,7 @@ var map;
 var placesService;
 var searchBox;
 var inputBox = document.getElementById('pac-input');
-var nycLatLng = {lat:40.7481831 , lng:-74.0070031};
+var nycLatLng = { lat:40.7481831 , lng:-74.0070031 };
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -24,13 +24,20 @@ var ViewModel = function() {
     self.currentFilterText = ko.observable("");
     self.currentFilterText.subscribe(function(newText) {
         if (newText.trim() == "") {
+            // If the user emptied the search box, display all items
             self.setListItems(self.unfilteredPlaceList);
         } else {
+            // Otherwise, filter based on the user's search
             var filteredItems = self.filterList(newText);
             self.setListItems(filteredItems);
         }
     });
 
+    /*
+     * This is called to reset the displayed list items on the page.
+     *
+     * newListItems should be an array of Google Maps Places.
+     */
     self.setListItems = function(newListItems) {
 
         self.listItems.removeAll();
@@ -54,6 +61,7 @@ var ViewModel = function() {
 
             self.listItems.push(newListItems[i]);
 
+            // Add a clickable marker for the new location
             var marker = new google.maps.Marker({
                 position: newListItems[i].geometry.location,
                 map: map,
@@ -69,8 +77,10 @@ var ViewModel = function() {
         }
     }
 
+    /*
+     * returns a new list, with elements filtered based on the text
+     */
     self.filterList = function(filterText) {
-        // returns a new list, with elements filtered based on the text
         var lowercaseFilterText = filterText.toLowerCase();
         var placesToKeep = [];
 
@@ -108,6 +118,8 @@ var ViewModel = function() {
     self.handleListElementOrMarkerClick = function(data) {
         var placeData;
         var marker;
+
+        // Determine if the user clicked on the list, or on a marker
         if (data.iAmAMarker) {
             // user clicked on a marker
             placeData = data.placeData;
@@ -148,12 +160,12 @@ var ViewModel = function() {
               'api-key': "7112833395c14519bee52c0a452a553d",
               'q': placeData.name
             });
+            var headerHtml = '<h5>New York Times Related Article</h5>'
             $.ajax({
                 url: url,
                 method: 'GET',
             }).done(function(result) {
                 docs = result.response.docs;
-                var headerHtml = '<h5>New York Times Related Article</h5>'
                 if (docs.length > 0) {
                     if (docs[0].snippet != null && docs[0].web_url != null) {
                         var htmlArticleString = headerHtml;
