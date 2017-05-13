@@ -4,7 +4,6 @@ var searchBox;
 var inputBox = document.getElementById('pac-input');
 var nycLatLng = {lat:40.7481831 , lng:-74.0070031};
 
-
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: nycLatLng,
@@ -32,8 +31,8 @@ var ViewModel = function() {
         }
     });
 
-    self.setListItems = function(newListItems) { // todo - should this be ko.computed()?
-        // todo - handle the case where newListItems is empty
+    self.setListItems = function(newListItems) {
+
         self.listItems.removeAll();
 
         // delete old markers
@@ -54,11 +53,6 @@ var ViewModel = function() {
             }
 
             self.listItems.push(newListItems[i]);
-
-            // // todo remove
-            // if (i == 0) {
-            //     console.log(newListItems[i]);
-            // }
 
             var marker = new google.maps.Marker({
                 position: newListItems[i].geometry.location,

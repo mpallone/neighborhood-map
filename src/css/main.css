@@ -65,7 +65,6 @@ html, body {
     border-color: #4d90fe;
 }
 
-/*todo - rename place-entry to place-list-item, or something, 'place-entry' sounds too much like the search box*/
 .place-entry {
     cursor: default;
 }
