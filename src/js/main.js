@@ -23,7 +23,7 @@ var ViewModel = function() {
 
     self.currentFilterText = ko.observable("");
     self.currentFilterText.subscribe(function(newText) {
-        if (newText.trim() == "") {
+        if (newText.trim() === "") {
             // If the user emptied the search box, display all items
             self.setListItems(self.unfilteredPlaceList);
         } else {
@@ -48,8 +48,11 @@ var ViewModel = function() {
         }
         self.markers = [];
 
+        var handleMarkerClick = function() {
+            self.handleListElementOrMarkerClick(this);
+        };
         // Add new list entries and markers
-        for (var i = 0; i < newListItems.length; ++i) {
+        for (i = 0; i < newListItems.length; ++i) {
             // verify that we're dealing with food/drink establishments
             if ($.inArray('restaurant', newListItems[i].types) == -1 &&
                 $.inArray('cafe', newListItems[i].types) == -1       &&
@@ -70,12 +73,10 @@ var ViewModel = function() {
                 placeData: newListItems[i],
                 iAmAMarker: true
             });
-            marker.addListener('click', function() {
-                self.handleListElementOrMarkerClick(this);
-            });
+            marker.addListener('click', handleMarkerClick);
             self.markers.push(marker);
         }
-    }
+    };
 
     /*
      * returns a new list, with elements filtered based on the text
@@ -100,7 +101,7 @@ var ViewModel = function() {
             }
         }
         return placesToKeep;
-    }
+    };
 
     self.initializeListItems = function () {
         // Set the first list that the user sees to my favorite locations
@@ -113,7 +114,7 @@ var ViewModel = function() {
             self.unfilteredPlaceList = places;
             self.setListItems(places);
         });
-    }
+    };
 
     self.handleListElementOrMarkerClick = function(data) {
         var placeData;
@@ -135,13 +136,13 @@ var ViewModel = function() {
             }
         }
 
-        if (self.currentInfoWindow == null) {
+        if (self.currentInfoWindow === null) {
             self.currentInfoWindow = new google.maps.InfoWindow();
         }
 
         // create InfoWindow and add it to marker
-        if (self.currentInfoWindow == null || self.currentInfoWindow.marker != marker) {
-            if (self.currentInfoWindow != null) {
+        if (self.currentInfoWindow === null || self.currentInfoWindow.marker != marker) {
+            if (self.currentInfoWindow !== null) {
                 self.currentInfoWindow.setMarker = null;
             }
             self.currentInfoWindow.marker = marker;
@@ -160,32 +161,32 @@ var ViewModel = function() {
               'api-key': "7112833395c14519bee52c0a452a553d",
               'q': placeData.name
             });
-            var headerHtml = '<h5>New York Times Related Article</h5>'
+            var headerHtml = '<h5>New York Times Related Article</h5>';
             $.ajax({
                 url: url,
                 method: 'GET',
             }).done(function(result) {
                 docs = result.response.docs;
                 if (docs.length > 0) {
-                    if (docs[0].snippet != null && docs[0].web_url != null) {
+                    if (docs[0].snippet !== null && docs[0].web_url !== null) {
                         var htmlArticleString = headerHtml;
                         htmlArticleString += '<a href="' + docs[0].web_url + '">' + docs[0].headline.main + '</a>';
                         htmlArticleString += '<p>' + docs[0].snippet + '</p>';
                         self.currentInfoWindow.setContent(self.currentInfoWindow.content + htmlArticleString);
                     }
                 } else {
-                    self.currentInfoWindow.setContent(self.currentInfoWindow.content + headerHtml
-                        + '<p>No NYTimes articles found.</p>');
+                    self.currentInfoWindow.setContent(
+                        self.currentInfoWindow.content + headerHtml + '<p>No NYTimes articles found.</p>');
                 }
             }).fail(function(err) {
-                self.currentInfoWindow.setContent(self.currentInfoWindow.content + headerHtml
-                    + '<p>Could not reach NYTimes server.</p>');
+                self.currentInfoWindow.setContent(
+                    self.currentInfoWindow.content + headerHtml + '<p>Could not reach NYTimes server.</p>');
             });
         }
 
         marker.setAnimation(google.maps.Animation.DROP);
-    }
-}
+    };
+};
 
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
