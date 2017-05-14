@@ -51,7 +51,7 @@ var ViewModel = function() {
         }
 
         // Add new list entries and markers
-        for (i = 0; i < newListItems.length; ++i) {
+        for (var i = 0; i < newListItems.length; ++i) {
             // verify that we're dealing with food/drink establishments
             if ($.inArray('restaurant', newListItems[i].types) == -1 &&
                 $.inArray('cafe', newListItems[i].types) == -1       &&
