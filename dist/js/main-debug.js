@@ -132,9 +132,14 @@ var ViewModel = function() {
             placeData = data.placeData;
             marker = data;
         } else {
+            // user clicked on the list
             placeData = data;
             marker = self.markerDict[placeData.id];
         }
+
+        // Position the map to the selected location
+        map.panTo(marker.getPosition());
+        map.setCenter(marker.getPosition());
 
         if (self.currentInfoWindow === null) {
             self.currentInfoWindow = new google.maps.InfoWindow();
