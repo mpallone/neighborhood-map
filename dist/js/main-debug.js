@@ -13,6 +13,10 @@ function initMap() {
     viewModel.initializeListItems();
 }
 
+function handleGoogleMapsFailure() {
+    alert("Failed to load Google map!");
+}
+
 var ViewModel = function() {
     var self = this;
     self.listItems = ko.observableArray([]);
@@ -61,9 +65,8 @@ var ViewModel = function() {
             self.markerDict[newListItems[i].id].setVisible(true);
         }
 
-        if (self.currentInfoWindow !== null) {
-            self.currentInfoWindow.close();
-        }
+        self.currentInfoWindow.close();
+
     };
 
     /*
@@ -120,6 +123,11 @@ var ViewModel = function() {
 
             self.setListItems(places);
         });
+
+        // Create an info window, but don't open it until the user clicks on
+        // something.
+        self.currentInfoWindow = new google.maps.InfoWindow();
+        self.currentInfoWindow.close();
     };
 
     self.handleListElementOrMarkerClick = function(data) {
@@ -141,15 +149,8 @@ var ViewModel = function() {
         map.panTo(marker.getPosition());
         map.setCenter(marker.getPosition());
 
-        if (self.currentInfoWindow === null) {
-            self.currentInfoWindow = new google.maps.InfoWindow();
-        }
-
         // create InfoWindow and add it to marker
-        if (self.currentInfoWindow === null || self.currentInfoWindow.marker != marker) {
-            if (self.currentInfoWindow !== null) {
-                self.currentInfoWindow.setMarker = null;
-            }
+        if (self.currentInfoWindow.marker != marker) {
             self.currentInfoWindow.marker = marker;
             self.currentInfoWindow.setContent(
                 '<div>' + placeData.name + '</div>' +
