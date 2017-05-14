@@ -1,5 +1,7 @@
 /* make sure tap targets are big enough: */
-* nav a, button {
+nav,
+a,
+button {
     min-width: 48px; min-height: 48px;
 }
 

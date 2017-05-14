@@ -1,7 +1,6 @@
 var map;
 var placesService;
 var searchBox;
-var inputBox = document.getElementById('pac-input');
 var nycLatLng = { lat: 40.7481831, lng: -74.0070031 };
 
 function initMap() {
@@ -17,7 +16,7 @@ function initMap() {
 var ViewModel = function() {
     var self = this;
     self.listItems = ko.observableArray([]);
-    self.markers = [];
+    self.markerDict = {};
     self.unfilteredPlaceList = [];
     self.currentInfoWindow = null;
 
@@ -39,18 +38,14 @@ var ViewModel = function() {
      * newListItems should be an array of Google Maps Places.
      */
     self.setListItems = function(newListItems) {
-
         self.listItems.removeAll();
-
-        // delete old markers
-        for (var i = 0; i < self.markers.length; ++i) {
-            self.markers[i].setMap(null);
+        // hide markers
+        for (var placeId in self.markerDict) {
+            if (self.markerDict.hasOwnProperty(placeId)) {
+              self.markerDict[placeId].setVisible(false);
+            }
         }
-        self.markers = [];
 
-        var handleMarkerClick = function() {
-            self.handleListElementOrMarkerClick(this);
-        };
         // Add new list entries and markers
         for (i = 0; i < newListItems.length; ++i) {
             // verify that we're dealing with food/drink establishments
@@ -63,18 +58,11 @@ var ViewModel = function() {
             }
 
             self.listItems.push(newListItems[i]);
+            self.markerDict[newListItems[i].id].setVisible(true);
+        }
 
-            // Add a clickable marker for the new location
-            var marker = new google.maps.Marker({
-                position: newListItems[i].geometry.location,
-                map: map,
-                title: newListItems[i].geometry.name,
-                // animation: google.maps.Animation.DROP, // obnoxious
-                placeData: newListItems[i],
-                iAmAMarker: true
-            });
-            marker.addListener('click', handleMarkerClick);
-            self.markers.push(marker);
+        if (self.currentInfoWindow !== null) {
+            self.currentInfoWindow.close();
         }
     };
 
@@ -112,6 +100,24 @@ var ViewModel = function() {
         };
         placesService.textSearch(request, function(places) {
             self.unfilteredPlaceList = places;
+
+            // Create a marker for each place
+            var handleMarkerClick = function() {
+                self.handleListElementOrMarkerClick(this);
+            };
+            for (var i = 0; i < places.length; ++i) {
+                var marker = new google.maps.Marker({
+                    position: places[i].geometry.location,
+                    map: map,
+                    title: places[i].geometry.name,
+                    // animation: google.maps.Animation.DROP, // obnoxious
+                    placeData: places[i],
+                    iAmAMarker: true
+                });
+                marker.addListener('click', handleMarkerClick);
+                self.markerDict[places[i].id] = marker;
+            }
+
             self.setListItems(places);
         });
     };
@@ -127,13 +133,7 @@ var ViewModel = function() {
             marker = data;
         } else {
             placeData = data;
-            // User clicked on the list. Find the corresponding marker.
-            for (var i = 0; i < self.markers.length; ++i) {
-                if (placeData.id == self.markers[i].placeData.id) {
-                    marker = self.markers[i];
-                    break;
-                }
-            }
+            marker = self.markerDict[placeData.id];
         }
 
         if (self.currentInfoWindow === null) {
